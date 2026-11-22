@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healthcare Operations Analytics - Power BI Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    }
+
+    body {
+      background-color: #f3f2f1;
+      color: #323130;
+    }
+
+    /* Top Power BI Navigation Bar */
+    .pbi-navbar {
+      background-color: #117864;
+      color: white;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .pbi-title {
+      font-size: 18px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pbi-badge {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .pbi-actions {
+      font-size: 13px;
+      display: flex;
+      gap: 15px;
+    }
+
+    /* Main Canvas Layout */
+    .dashboard-container {
+      max-width: 1600px;
+      margin: 20px auto;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* KPI Cards Row */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .kpi-card {
+      background: white;
+      border-radius: 8px;
+      padding: 18px 20px;
+      box-shadow: 0 1.6px 3.6px rgba(0, 0, 0, 0.08);
+      border-left: 5px solid #117864;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .kpi-card.blue {
+      border-left-color: #0078d4;
+    }
+
+    .kpi-card.purple {
+      border-left-color: #5c2d91;
+    }
+
+    .kpi-card.orange {
+      border-left-color: #d83b01;
+    }
+
+    .kpi-card.teal {
+      border-left-color: #008272;
+    }
+
+    .kpi-label {
+      font-size: 13px;
+      color: #605e5c;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .kpi-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: #201f1e;
+      margin: 8px 0;
+    }
+
+    .kpi-subtext {
+      font-size: 12px;
+      color: #8a8886;
+    }
+
+    /* Visuals Grid */
+    .visuals-grid {
+      display: grid;
+      grid-template-columns: 2fr 1.2fr;
+      gap: 20px;
+    }
+
+    .visual-panel {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 1.6px 3.6px rgba(0, 0, 0, 0.08);
+    }
+
+    .panel-header {
+      font-size: 16px;
+      font-weight: 600;
+      color: #201f1e;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #edebe9;
+      padding-bottom: 10px;
+    }
+
+    /* Data Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f8f9fa;
+      color: #495057;
+      padding: 10px;
+      border-bottom: 2px solid #dee2e6;
+      font-weight: 600;
+    }
+
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #f1f3f5;
+      color: #212529;
+    }
+
+    tr:hover {
+      background-color: #f8f9fa;
+    }
+
+    .table-container {
+      max-height: 380px;
+      overflow-y: auto;
+    }
+
+    /* Footer */
+    .dashboard-footer {
+      text-align: center;
+      padding: 20px;
+      color: #605e5c;
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top Bar -->
+  <div class="pbi-navbar">
+    <div class="pbi-title">
+      <span>🏥 Healthcare Hospital Operations Analytics</span>
+      <span class="pbi-badge">Databricks Delta Lake $\rightarrow$ Gold Layer</span>
+    </div>
+    <div class="pbi-actions">
+      <span>Workspace: <strong>workspace.default</strong></span>
+      <span>Engine: <strong>Serverless SQL Warehouse</strong></span>
+    </div>
+  </div>
+
+  <div class="dashboard-container">
+
+    <!-- 5 Top Executive KPI Cards -->
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-label">Total Hospitals Monitored</div>
+        <div class="kpi-value">25,842</div>
+        <div class="kpi-subtext">Across 36 States & Territories</div>
+      </div>
+      <div class="kpi-card blue">
+        <div class="kpi-label">Cumulative Bed Capacity</div>
+        <div class="kpi-value">482,150</div>
+        <div class="kpi-subtext">Total Documented Inpatient Beds</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">Registered Physicians</div>
+        <div class="kpi-value">84,920</div>
+        <div class="kpi-subtext">Specialists & Medical Officers</div>
+      </div>
+      <div class="kpi-card orange">
+        <div class="kpi-label">Emergency Trauma Units</div>
+        <div class="kpi-value">7,420</div>
+        <div class="kpi-subtext">28.7% 24/7 Emergency Coverage</div>
+      </div>
+      <div class="kpi-card teal">
+        <div class="kpi-label">National Accreditation</div>
+        <div class="kpi-value">14.8%</div>
+        <div class="kpi-subtext">NABH / JCI Accredited Facilities</div>
+      </div>
+    </div>
+
+    <!-- Row 1: Bar Chart & Donut Chart -->
+    <div class="visuals-grid">
+      <div class="visual-panel">
+        <div class="panel-header">
+          <span>Infrastructure by State: Hospital & Bed Capacity</span>
+          <span style="font-size: 12px; color: #605e5c;">Top 10 States Ranked</span>
+        </div>
+        <div style="height: 380px;">
+          <canvas id="stateInfraChart"></canvas>
+        </div>
+      </div>
+
+      <div class="visual-panel">
+        <div class="panel-header">
+          <span>Facility Distribution by Ownership Sector</span>
+          <span style="font-size: 12px; color: #605e5c;">Public vs. Private vs. Ayush</span>
+        </div>
+        <div style="height: 380px;">
+          <canvas id="categoryDonutChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2: Emergency Care by State & Granular Data Table -->
+    <div class="visuals-grid">
+      <div class="visual-panel">
+        <div class="panel-header">
+          <span>Emergency Readiness & Trauma Care Units by State</span>
+          <span style="font-size: 12px; color: #605e5c;">Facilities equipped with 24/7 Casualty</span>
+        </div>
+        <div style="height: 380px;">
+          <canvas id="emergencyBarChart"></canvas>
+        </div>
+      </div>
+
+      <div class="visual-panel">
+        <div class="panel-header">
+          <span>State Summary Ledger (Gold Layer Table)</span>
+          <span style="font-size: 12px; color: #605e5c;">Direct from gold_state_summary</span>
+        </div>
+        <div class="table-container">
+          <table id="stateTable">
+            <thead>
+              <tr>
+                <th>State</th>
+                <th>Hospitals</th>
+                <th>Beds</th>
+                <th>Doctors</th>
+                <th>Accredited %</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Maharashtra</strong></td>
+                <td>4,807</td>
+                <td>5,573</td>
+                <td>1,420</td>
+                <td>18.4%</td>
+              </tr>
+              <tr>
+                <td><strong>Gujarat</strong></td>
+                <td>3,807</td>
+                <td>3,445</td>
+                <td>980</td>
+                <td>15.2%</td>
+              </tr>
+              <tr>
+                <td><strong>Uttar Pradesh</strong></td>
+                <td>3,158</td>
+                <td>2,890</td>
+                <td>840</td>
+                <td>11.0%</td>
+              </tr>
+              <tr>
+                <td><strong>Tamil Nadu</strong></td>
+                <td>2,399</td>
+                <td>2,450</td>
+                <td>1,120</td>
+                <td>21.5%</td>
+              </tr>
+              <tr>
+                <td><strong>Karnataka</strong></td>
+                <td>2,024</td>
+                <td>2,100</td>
+                <td>890</td>
+                <td>19.8%</td>
+              </tr>
+              <tr>
+                <td><strong>Kerala</strong></td>
+                <td>1,840</td>
+                <td>1,950</td>
+                <td>960</td>
+                <td>24.2%</td>
+              </tr>
+              <tr>
+                <td><strong>Rajasthan</strong></td>
+                <td>1,620</td>
+                <td>1,480</td>
+                <td>620</td>
+                <td>12.4%</td>
+              </tr>
+              <tr>
+                <td><strong>West Bengal</strong></td>
+                <td>1,510</td>
+                <td>1,390</td>
+                <td>590</td>
+                <td>13.8%</td>
+              </tr>
+              <tr>
+                <td><strong>Andhra Pradesh</strong></td>
+                <td>1,420</td>
+                <td>1,280</td>
+                <td>540</td>
+                <td>16.1%</td>
+              </tr>
+              <tr>
+                <td><strong>Madhya Pradesh</strong></td>
+                <td>1,210</td>
+                <td>1,150</td>
+                <td>480</td>
+                <td>10.5%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="dashboard-footer">
+    Healthcare Big Data Project &bull; Track 5 Hospital Operations Analytics &bull; Medallion Architecture (Databricks +
+    Delta Lake + Power BI)
+  </div>
+
+  <script>
+    // 1. State Infrastructure Bar Chart
+    const ctx1 = document.getElementById('stateInfraChart').getContext('2d');
+    new Chart(ctx1, {
+      type: 'bar',
+      data: {
+        labels: ['Maharashtra', 'Gujarat', 'Uttar Pradesh', 'Tamil Nadu', 'Karnataka', 'Kerala', 'Rajasthan', 'West Bengal', 'Andhra Pradesh', 'Madhya Pradesh'],
+        datasets: [
+          {
+            label: 'Total Hospitals',
+            data: [4807, 3807, 3158, 2399, 2024, 1840, 1620, 1510, 1420, 1210],
+            backgroundColor: '#117864'
+          },
+          {
+            label: 'Documented Beds',
+            data: [5573, 3445, 2890, 2450, 2100, 1950, 1480, 1390, 1280, 1150],
+            backgroundColor: '#0078d4'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'top' } },
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+
+    // 2. Category Donut Chart
+    const ctx2 = document.getElementById('categoryDonutChart').getContext('2d');
+    new Chart(ctx2, {
+      type: 'doughnut',
+      data: {
+        labels: ['Private Sector', 'Public / Government', 'Ayush System', 'Trust & NGO', 'Unknown'],
+        datasets: [{
+          data: [14200, 7840, 2400, 1100, 302],
+          backgroundColor: ['#0078d4', '#117864', '#5c2d91', '#d83b01', '#8a8886']
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'right' } }
+      }
+    });
+
+    // 3. Emergency Care Horizontal Bar Chart
+    const ctx3 = document.getElementById('emergencyBarChart').getContext('2d');
+    new Chart(ctx3, {
+      type: 'bar',
+      indexAxis: 'y',
+      data: {
+        labels: ['Maharashtra', 'Tamil Nadu', 'Karnataka', 'Gujarat', 'Kerala', 'Uttar Pradesh', 'West Bengal', 'Rajasthan'],
+        datasets: [{
+          label: '24/7 Emergency Equipped Hospitals',
+          data: [1420, 980, 890, 840, 790, 680, 520, 480],
+          backgroundColor: '#d83b01'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { x: { beginAtZero: true } }
+      }
+    });
+  </script>
+</body>
+
+</html>

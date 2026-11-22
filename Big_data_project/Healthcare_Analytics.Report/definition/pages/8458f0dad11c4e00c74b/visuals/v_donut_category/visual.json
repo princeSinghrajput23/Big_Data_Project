@@ -1,0 +1,60 @@
+{
+  "": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "v_donut_category",
+  "position": {
+    "x": 1100,
+    "y": 160,
+    "z": 6,
+    "height": 480,
+    "width": 790,
+    "tabOrder": 6
+  },
+  "visual": {
+    "visualType": "donutChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "gold_category_summary"
+                    }
+                  },
+                  "Property": "\ufeffHospital_Category_Clean"
+                }
+              },
+              "queryRef": "gold_category_summary.\ufeffHospital_Category_Clean",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "gold_category_summary"
+                        }
+                      },
+                      "Property": "Total_Hospitals"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(gold_category_summary.Total_Hospitals)"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

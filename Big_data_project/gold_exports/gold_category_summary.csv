@@ -1,0 +1,16 @@
+﻿Hospital_Category_Clean,Medicine_System,Total_Hospitals,Total_Beds,Emergency_Hospitals,Accredited_Count,Avg_Doctors
+Unknown,Unknown,28220,,0,0,
+Private,Allopathic,1422,5816,2,0,11.0
+Public/ Government,Allopathic,464,3475,0,0,
+Public/ Government,Unknown,105,,0,0,
+Public/ Government,Ayush/ Ayurveda,24,,0,0,
+Unknown,Allopathic,13,,0,0,
+Private,Ayush/ Ayurveda,9,30,0,0,
+Private,"Allopathic, Ayush/ Homeopathy",3,,0,0,
+Private,"Allopathic, Ayush/ Ayurveda/ Homeopathy",3,,0,0,
+Private,Ayush/ Homeopathy,3,,0,0,
+Private,"Allopathic, Ayush/ Ayurveda",3,,0,0,
+Public/ Government,Ayush/ Homeopathy,1,,0,0,
+Private,Ayush/ Ayurveda/ Siddha,1,,0,0,
+Private,"Allopathic, Ayush/ Ayurveda/ Unani/ Homeopathy",1,,0,0,
+Private,"Allopathic, Ayush/ Ayurveda/ Naturopathy",1,,0,0,

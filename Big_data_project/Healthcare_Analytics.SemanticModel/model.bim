@@ -1,0 +1,115 @@
+{
+  "name": "Model",
+  "compatibilityLevel": 1567,
+  "model": {
+    "culture": "en-US",
+    "dataAccessOptions": {
+      "legacyRedirects": true,
+      "returnErrorValuesAsNull": true
+    },
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "sourceQueryCulture": "en-US",
+    "tables": [
+      {
+        "name": "gold_state_summary",
+        "lineageTag": "70fa8475-f7c8-4e28-8735-5e1417d38c19",
+        "columns": [
+          {
+            "name": "State",
+            "dataType": "string",
+            "sourceColumn": "State",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Total_Hospitals",
+            "dataType": "int64",
+            "sourceColumn": "Total_Hospitals",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Total_Beds",
+            "dataType": "int64",
+            "sourceColumn": "Total_Beds",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Total_Doctors",
+            "dataType": "int64",
+            "sourceColumn": "Total_Doctors",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Hospitals_With_Emergency",
+            "dataType": "int64",
+            "sourceColumn": "Hospitals_With_Emergency",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Accreditation_Rate_Pct",
+            "dataType": "double",
+            "sourceColumn": "Accreditation_Rate_Pct",
+            "summarizeBy": "average"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "gold_state_summary",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"C:\\Users\\swast\\Documents\\Big_data_project\\gold_exports\\gold_state_summary.csv\"),[Delimiter=\",\", Columns=9, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Total_Hospitals\", Int64.Type}, {\"Total_Beds\", Int64.Type}, {\"Total_Doctors\", Int64.Type}, {\"Hospitals_With_Emergency\", Int64.Type}, {\"Accreditation_Rate_Pct\", type number}})",
+                "in",
+                "    #\"Changed Type\""
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "gold_category_summary",
+        "lineageTag": "3594d763-f7e4-4f37-a0e1-5765d9d9caae",
+        "columns": [
+          {
+            "name": "Hospital_Category_Clean",
+            "dataType": "string",
+            "sourceColumn": "Hospital_Category_Clean",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Medicine_System",
+            "dataType": "string",
+            "sourceColumn": "Medicine_System",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Total_Hospitals",
+            "dataType": "int64",
+            "sourceColumn": "Total_Hospitals",
+            "summarizeBy": "sum"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "gold_category_summary",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"C:\\Users\\swast\\Documents\\Big_data_project\\gold_exports\\gold_category_summary.csv\"),[Delimiter=\",\", Columns=7, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Total_Hospitals\", Int64.Type}})",
+                "in",
+                "    #\"Changed Type\""
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

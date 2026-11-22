@@ -1,0 +1,19 @@
+{
+  "version": "0.1",
+  "connections": [
+    {
+      "details": {
+        "protocol": "databricks",
+        "address": {
+          "host": "dbc-a4a09dbc-2715.cloud.databricks.com",
+          "path": "/sql/1.0/warehouses/9fb4d0b3432ba262"
+        },
+        "authentication": null,
+        "query": null
+      },
+      "options": {},
+      "mode": null
+    }
+  ]
+}
+

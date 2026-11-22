@@ -1,0 +1,42 @@
+{
+  "": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "v_kpi_accred",
+  "position": {
+    "x": 1510,
+    "y": 20,
+    "z": 4,
+    "height": 120,
+    "width": 380,
+    "tabOrder": 4
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "gold_state_summary"
+                        }
+                      },
+                      "Property": "Accreditation_Rate_Pct"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Avg(gold_state_summary.Accreditation_Rate_Pct)",
+              "nativeQueryRef": "Accreditation %"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

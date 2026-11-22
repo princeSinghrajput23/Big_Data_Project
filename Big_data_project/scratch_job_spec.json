@@ -1,0 +1,19 @@
+{
+  "name": "Healthcare_Hospital_Operations_ETL_Job",
+  "tasks": [
+    {
+      "task_key": "healthcare_medallion_etl",
+      "notebook_task": {
+        "notebook_path": "/Users/swastikcs25@gmail.com/Healthcare_ETL_Pipeline",
+        "source": "WORKSPACE"
+      },
+      "timeout_seconds": 1800
+    }
+  ],
+  "schedule": {
+    "quartz_cron_expression": "0 0 6 * * ?",
+    "timezone_id": "Asia/Kolkata",
+    "pause_status": "UNPAUSED"
+  },
+  "max_concurrent_runs": 1
+}

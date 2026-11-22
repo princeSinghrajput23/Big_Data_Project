@@ -1,0 +1,42 @@
+{
+  "": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "v_kpi_doctors",
+  "position": {
+    "x": 770,
+    "y": 20,
+    "z": 2,
+    "height": 120,
+    "width": 350,
+    "tabOrder": 2
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "gold_state_summary"
+                        }
+                      },
+                      "Property": "Total_Doctors"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(gold_state_summary.Total_Doctors)",
+              "nativeQueryRef": "Total Doctors"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
